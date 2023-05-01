@@ -398,6 +398,7 @@ export default {
     onThrowout ({ target, throwDirection }) {
       console.log( throwDirection )
       // this.swing()
+      this.print = "";
       setTimeout(() => {
         this.CARDS.pop()
         this.CARDS.shift();
