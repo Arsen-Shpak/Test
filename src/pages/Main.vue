@@ -425,19 +425,29 @@ export default {
 
     },
     drag(event) {
-      const move = Number(event.offset);
-      console.log(move);
-      switch (move) {
-        case move < -50:
-          setTimeOut(()=>{
-          this.print = "Препарат 1"
-
-          })
-          break
-        case move > 50:
-          this.print = "Препарат 3"
-          break
+      if(event.offset < 20 || event.offset > -20){
+        this.print = ""
       }
+       if(event.offset < -50){
+        this.print="Препарат 1"
+      }
+      if(event.offset > 50){
+        this.print="Препарат 3"
+      }
+
+      // const move = Number(event.offset);
+      // console.log(move);
+      // switch (move) {
+      //   case move < -50:
+      //     setTimeOut(()=>{
+      //     this.print = "Препарат 1"
+
+      //     })
+      //     break
+      //   case move > 50:
+      //     this.print = "Препарат 3"
+      //     break
+      // }
     }
   },
 };
