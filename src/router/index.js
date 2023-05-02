@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from "vue";
 import Router from "vue-router";
 import Cover from "@/pages/Cover.vue";
 import Final from "@/pages/Final.vue";
@@ -25,4 +25,4 @@ const router = new Router({
   ],
 });
 
-export default router
+export default router;

@@ -26,10 +26,10 @@ export default {
   align-items: center;
   width: 381px;
   height: 90px;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 100px;
   border: none;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 36px;
@@ -37,7 +37,7 @@ export default {
   display: flex;
   align-items: center;
   text-align: center;
-  color: #8E9AD5;
+  color: #8e9ad5;
 
   &:hover {
     cursor: pointer;

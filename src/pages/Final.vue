@@ -1,46 +1,31 @@
 <template>
   <div class="final">
-    <img :src="btnHome" alt="btnHome" class="final__btnHome" @click="goHome"/>
+    <img :src="btnHome" alt="btnHome" class="final__btnHome" @click="goHome" />
     <div class="wrapper">
       <div class="final__percent percent">
-        <!-- <div
-          class="percent-wrapper"
-          v-for="block in percentBlocks"
-          :key="block.name"
-        >
-          <h4 class="percent__number">{{ block.percent }}%</h4>
-          <p class="percent__name">{{ block.name }}</p>
-        </div> -->
-        <div
-          class="percent-wrapper"
-        >
+        <div class="percent-wrapper">
           <h4 class="percent__number">{{ sadPercent }}%</h4>
           <p class="percent__name">Препарат1</p>
         </div>
-        <div
-          class="percent-wrapper"
-        >
+        <div class="percent-wrapper">
           <h4 class="percent__number">{{ smilePercent }}%</h4>
           <p class="percent__name">Препарат2</p>
         </div>
-        <div
-          class="percent-wrapper"
-        >
+        <div class="percent-wrapper">
           <h4 class="percent__number">{{ heartPercent }}%</h4>
           <p class="percent__name">Препарат3</p>
         </div>
-        
       </div>
       <div class="final__content">
         <h3 class="final__result">Ваш результат:</h3>
         <h2 class="final__question">«Что я здесь делаю?»</h2>
         <p class="final__test">
-          Это тестовое задание, так что не будем углубляться в глубины проблем фармацевтов. 
+          Это тестовое задание, так что не будем углубляться в глубины проблем
+          фармацевтов.
         </p>
       </div>
-      <!-- <FinalButton title="Попробовать еще" @finalButton="tryAgain"/> -->
     </div>
-    <FinalButton title="Попробовать еще" @finalButton="tryAgain"/>
+    <FinalButton title="Попробовать еще" @finalButton="tryAgain" />
 
     <img :src="finalImg" alt="finalImg" class="final__img" />
   </div>
@@ -49,75 +34,49 @@
 import btnHome from "@/images/btnHome.png";
 import finalImg from "@/images/finalImg.png";
 import FinalButton from "@/components/FinalButton.vue";
-import { mapGetters,mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   components: {
-    FinalButton
+    FinalButton,
   },
   data() {
     return {
       btnHome: btnHome,
       finalImg: finalImg,
-      // percentBlocks: [
-      //   {
-      //     percent: 100,
-      //     name: "Препарат1",
-      //   },
-      //   {
-      //     percent: 100,
-      //     name: "Препарат2",
-      //   },
-      //   {
-      //     percent: 100,
-      //     name: "Препарат3",
-      //   },
-      // ],
     };
   },
   computed: {
-    ...mapGetters({ SMILE: "params/SMILE", SAD: "params/SAD", HEART: "params/HEART" }),
+    ...mapGetters({
+      SMILE: "params/SMILE",
+      SAD: "params/SAD",
+      HEART: "params/HEART",
+    }),
     smilePercent() {
-      return Math.round(this.SMILE.length / this.sumParams * 100);
+      return Math.round((this.SMILE.length / this.sumParams) * 100);
     },
     sadPercent() {
-      return Math.round(this.SAD.length / this.sumParams * 100);
+      return Math.round((this.SAD.length / this.sumParams) * 100);
     },
     heartPercent() {
-      return Math.round(this.HEART.length / this.sumParams * 100);
+      return Math.round((this.HEART.length / this.sumParams) * 100);
     },
     sumParams() {
-      return this.SMILE.length + this.SAD.length + this.HEART.length
-    }
-    // percentBlocks() {
-    //   return [
-    //     {
-    //       percent: this.,
-    //       name: "Препарат1",
-    //     },
-    //     {
-    //       percent: 100,
-    //       name: "Препарат2",
-    //     },
-    //     {
-    //       percent: 100,
-    //       name: "Препарат3",
-    //     },
-    //   ]
-    // }
+      return this.SMILE.length + this.SAD.length + this.HEART.length;
+    },
   },
   mounted() {
-    console.log(this.SMILE)
+    console.log(this.SMILE);
   },
   methods: {
-    ...mapMutations({RESET_PARAMS:"params/RESET_PARAMS"}),
+    ...mapMutations({ RESET_PARAMS: "params/RESET_PARAMS" }),
     goHome() {
-      this.$router.push({ name: "cover" })
+      this.$router.push({ name: "cover" });
     },
     tryAgain() {
       this.RESET_PARAMS();
       this.$router.push({ name: "main" });
     },
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -134,8 +93,6 @@ export default {
   &__img {
     object-fit: contain;
     object-position: top;
-    // width: 670px;
-    // height: 720px;
     width: 46.52%;
     height: 70.31%;
     position: absolute;
@@ -145,8 +102,6 @@ export default {
   }
   &__result {
     font-family: "Montserrat";
-    // font-size: 40px;
-    // line-height: 44px;
     font-size: 32px;
     line-height: 35px;
     letter-spacing: 0.02em;
@@ -155,8 +110,6 @@ export default {
   }
   &__question {
     font-family: "Montserrat";
-    // font-size: 150px;
-    // line-height: 165px;
     font-size: 40px;
     line-height: 44px;
     letter-spacing: 0.02em;
@@ -165,27 +118,22 @@ export default {
     margin-bottom: 20px;
   }
   &__content {
-    // width: 600px;
-    // margin-bottom: 250px;
     width: 100%;
-    max-width: 600px
+    max-width: 600px;
   }
-  &__test{
-    font-family: 'Montserrat';
+  &__test {
+    font-family: "Montserrat";
     font-size: 24px;
     line-height: 29px;
     color: #424242;
-    // width:580px;
   }
 }
 .percent {
   display: flex;
   gap: 20px;
-  // margin-left: 130px;
   padding-bottom: 50px;
   border-bottom: 2px solid #d9d9d9;
-  // width: 580px;
-  width:44.27%;
+  width: 44.27%;
   margin-bottom: 40px;
 
   &-wrapper {
@@ -193,8 +141,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    // width: 180px;
-    width: 33.33%
+    width: 33.33%;
   }
   &__number {
     font-family: "Montserrat";
@@ -204,7 +151,6 @@ export default {
     align-items: center;
     text-align: center;
     color: #424242;
-    // width:180px;
   }
   &__name {
     font-family: "Montserrat";
@@ -216,8 +162,7 @@ export default {
     color: #424242;
   }
 }
-.wrapper{
-  // padding-left: 130px;
+.wrapper {
   position: relative;
   left: 9%;
   max-width: 91%;

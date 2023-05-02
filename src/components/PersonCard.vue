@@ -5,9 +5,6 @@
       <h4 class="card__name">{{ person.name }}</h4>
       <p class="card__description">{{ person.description }}</p>
     </div>
-    <!-- <div :class="["print",{"print__one":print==="Препарат 1","print__two":print==="Препарат 2","print_three":print==="Препарат 3"}]">
-      <p>{{ print }}</p>
-    </div> -->
     <div class="print">
       <p
         :class="[
@@ -27,7 +24,7 @@ export default {
   props: {
     person: {
       type: Object,
-      // required: true,
+      required: true,
       default() {
         return {};
       },
@@ -39,11 +36,6 @@ export default {
       },
     },
   },
-  // data(){
-  //   return {
-  //     print:"Препарат 1"
-  //   }
-  // },
   computed: {
     one() {
       return this.print === "Препарат 1";
@@ -57,48 +49,40 @@ export default {
   },
   watch: {
     print: function () {
-      gsap.to(".print", {
-        // x: -388,
-        duration: 0.5,
-        rotate: -30,
-        // onComlete: () => {
-        //   this.print = "";
-        // },
-      });
+      if (this.print === "Препарат 3") {
+        gsap.to(".print", {
+          duration: 1,
+          rotate: 30,
+        });
+      } else {
+        gsap.to(".print", {
+          duration: 0.5,
+          rotate: -30,
+        });
+      }
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .card {
-  // filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  // box-shadow: 0px 0px 40px rgba(127, 127, 127, 0.4);
-  // width: 540px;
-  // height: 590px;
-  // border-radius: 40px;
-  // margin: 130px 210px 150px 220px;
   position: absolute;
-  // z-index:-2;
-  top: 130px;
-  // right: 220px;
+  top: 12.7%;
   left: 22.7%;
   right: 21.6%;
   box-shadow: 0px 0px 40px rgba(127, 127, 127, 0.4);
-  // width: 540px;
-  // height: 590px;
+
   border-radius: 40px;
   &__text {
-    // padding: 0 60px 80px;
-    margin: 0 auto 80px;
-    // width: 420px;
+    margin: 0 60px 80px 60px;
     max-width: 420px;
   }
   &__img {
+    border-radius: 40px 40px 0 0;
     margin-bottom: 25px;
     object-fit: contain;
     object-position: center;
-    // width: 540px;
-    // height: 350px;
+
     width: 100%;
   }
   &__name {
@@ -119,8 +103,6 @@ export default {
   font-family: "Montserrat";
   font-size: 52px;
   line-height: 51px;
-  // display: flex;
-  // align-items: center;
   text-align: center;
   position: absolute;
   top: 300px;
@@ -136,8 +118,6 @@ export default {
   }
   &__three {
     border: 8px solid #ffca01;
-    // border-image-source: linear-gradient(180deg, #FFB903 0%, #FFCA01 100%);
-    // color:linear-gradient(180deg, #FFB903 0%, #FFCA01 100%);
     color: #ffca01;
   }
 }
