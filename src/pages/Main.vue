@@ -70,7 +70,7 @@
           "
           @click="firstRemedy"
         >
-          Препарат1
+          Препарат 1
         </button>
         <button
           class="remedy__name"
@@ -79,7 +79,7 @@
           "
           @click="secondRemedy"
         >
-          Препарат2
+          Препарат 2
         </button>
         <button
           class="remedy__name"
@@ -87,7 +87,7 @@
             background: linear-gradient(90deg, #FFD748 0.02%, rgba(195, 199, 11, 0.96) 99.97%, #CAC6AB 99.98%, #D3E9E1 99.99%);"
           @click="thirdRemedy"
         >
-          Препарат3
+          Препарат 3
         </button>
       </div>
     </main>
