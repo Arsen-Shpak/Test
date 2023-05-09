@@ -70,6 +70,7 @@ export default {
   methods: {
     ...mapMutations({ RESET_PARAMS: "params/RESET_PARAMS" }),
     goHome() {
+      this.RESET_PARAMS();
       this.$router.push({ name: "cover" });
     },
     tryAgain() {
@@ -135,7 +136,6 @@ export default {
   border-bottom: 2px solid #d9d9d9;
   width: 44.27%;
   margin-bottom: 40px;
-
   &-wrapper {
     display: flex;
     flex-direction: column;

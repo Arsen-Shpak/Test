@@ -8,12 +8,14 @@
           class="main__btnHome"
           @click="goHome"
         />
-        <img
+        <!-- <div> -->
+          <img
           :src="button"
           alt="btnRetry"
           class="main__btnRetry"
           @click="goRetry"
         />
+        <!-- </div> -->
       </div>
       <div class="main__down">
         <div class="main__center">
@@ -53,13 +55,15 @@
         @throwoutup="up"
         @dragmove="dragNew"
         @dragend="dragEnd"
+        @dragstart="dragstart"
       >
+      <!-- <div></div> -->
         <PersonCard
-          :person="Card"
           :print="print"
           class="personCard"
           v-for="card in this.CARDS"
           :key="card.id"
+          :person="card"
         />
       </vue-swing>
       <div class="main__remedy remedy">
@@ -69,6 +73,7 @@
             background: linear-gradient(266.19deg, #8049c7 0%, #ca57fd 100%);
           "
           @click="firstRemedy"
+          :disabled="isButtonDisabled"
         >
           Препарат 1
         </button>
@@ -78,6 +83,8 @@
             background: linear-gradient(266.19deg, #169ae4 0%, #0cc4fa 100%);
           "
           @click="secondRemedy"
+          :disabled="isButtonDisabled"
+
         >
           Препарат 2
         </button>
@@ -86,6 +93,8 @@
           style="
             background: linear-gradient(90deg, #FFD748 0.02%, rgba(195, 199, 11, 0.96) 99.97%, #CAC6AB 99.98%, #D3E9E1 99.99%);"
           @click="thirdRemedy"
+          :disabled="isButtonDisabled"
+
         >
           Препарат 3
         </button>
@@ -101,6 +110,7 @@ import sadIcon from "@/images/Sad_icon.svg";
 import heartIcon from "@/images/heart_icon.svg";
 import PersonCard from "@/components/PersonCard.vue";
 import button from "@/images/button.svg";
+import group from "@/images/Group.png";
 import { Swipeable } from "vue-swipy";
 import VueSwing from "vue-swing";
 import { mapActions, mapGetters, mapMutations } from "vuex";
@@ -119,13 +129,16 @@ export default {
       happyIcon: happyIcon,
       sadIcon: sadIcon,
       heartIcon: heartIcon,
+      group:group,
       currentInd: 1,
       print: "",
       button: button,
+      isButtonDisabled:false,
+      isCard:true,
       config: {
         allowedDirections: [
           VueSwing.Direction.UP,
-          VueSwing.Direction.DOWN,
+          // VueSwing.Direction.DOWN,
           VueSwing.Direction.LEFT,
           VueSwing.Direction.RIGHT,
         ],
@@ -168,16 +181,23 @@ export default {
         (element) => Number(element.id) === this.currentInd
       );
     },
-    getTranslateXY() {
-      const transformStyle = document.getElementById(".card").style.transform;
-      const style = window.getComputedStyle(transformStyle);
-      const matrix = new DOMMatrixReadOnly(style.transform);
-      return {
-        translateX: matrix.m41,
-        translateY: matrix.m42,
-      };
-    },
+    // CurrentCard(){
+    //     return this.GET_CURRENT_CARD(this.currentInd)
+    //   }
+    // arrayOfCard() {
+    //   return this.CARDS[this.currentInd-1]
+    // }
+    // getTranslateXY() {
+    //   const transformStyle = document.getElementById(".card").style.transform;
+    //   const style = window.getComputedStyle(transformStyle);
+    //   const matrix = new DOMMatrixReadOnly(style.transform);
+    //   return {
+    //     translateX: matrix.m41,
+    //     translateY: matrix.m42,
+    //   };
+    // },
   },
+  
   mounted() {
     this.GET_CARDS_FROM_API();
     this.GET_CURRENT_CARD(this.currentInd);
@@ -208,6 +228,7 @@ export default {
       }
     },
     firstRemedy() {
+      // this.isButtonDisabled = true;
       this.ADD_SAD_PARAMS(this.CURRENT_CARD);
       this.print = "Препарат 1";
       this.animation("left");
@@ -224,6 +245,7 @@ export default {
     },
     animation(turn) {
       const ind = gsap.timeline();
+      this.isButtonDisabled = true;
       switch (turn) {
         case "left":
           ind.to(".personCard", {
@@ -234,6 +256,7 @@ export default {
               this.currentInd++;
               ind.revert();
               this.print = "";
+              this.isButtonDisabled = false;
             },
           });
           break;
@@ -246,6 +269,7 @@ export default {
               this.currentInd++;
               ind.revert();
               this.print = "";
+              this.isButtonDisabled = false;
             },
           });
           break;
@@ -258,6 +282,7 @@ export default {
               this.currentInd++;
               ind.revert();
               this.print = "";
+              this.isButtonDisabled = false;
             },
           });
           break;
@@ -289,6 +314,7 @@ export default {
       target.remove();
     },
     dragNew(event) {
+      // console.log(event.target)
       const { leftOffset, rightOffset, topOffset } = event.throwOutConfidence;
       if (topOffset < 50 && leftOffset < 50 && rightOffset < 50) {
         this.print = "";
@@ -300,23 +326,25 @@ export default {
         if (leftOffset > rightOffset) return "Препарат 1";
         return "Препарат 3";
       })();
-
       this.print = drugName;
     },
     dragEnd() {
       this.print = "";
+
     },
+    dragstart() {
+      console.log(this.currentInd)
+      // this.currentInd++
+    }
   },
 };
 </script>
 <style lang="scss" scoped>
 .main {
   display: flex;
-
   &__left {
     width: 32.64%;
     min-height: 100vh;
-
     max-width: 470px;
     position: relative;
     display: flex;
@@ -355,21 +383,17 @@ export default {
     height: 70px;
     object-fit: contain;
     object-position: center;
-    // padding: 15px 35px;
     border-radius: 100px;
     background: #ffffff;
-    // z-index: 1;
     cursor: pointer;
   }
   &__btnRetry {
     width: 70px;
     height: 70px;
-    // padding: 15px 35px;
     object-fit: contain;
     object-position: center;
     border-radius: 100px;
     background: #ffffff;
-    // z-index: 1;
   }
   &__params {
     font-family: "Montserrat";
@@ -386,8 +410,6 @@ export default {
     gap: 20px;
     align-items: center;
     flex-wrap: wrap;
-    // margin-bottom: 190px;
-    // margin-bottom: 40.43%;
   }
   &__counter {
     position: relative;
@@ -418,21 +440,23 @@ export default {
     text-align: center;
     letter-spacing: 0.02em;
     color: #ffffff;
+    font-weight: lighter;
   }
   &__number {
     font-family: "Montserrat";
-    font-size: 45px;
-    line-height: 55px;
+    // font-size: 45px;
+    // line-height: 55px;
+    font-size: 36px;
+    line-height: 44px;
     display: flex;
     align-items: center;
     text-align: center;
     letter-spacing: 0.02em;
     color: #ffffff;
+    font-weight: bold;
   }
   &__right {
-    //  width:970px;
     width: 67.36%;
-    //  width:100%;
     max-width: 970px;
     position: relative;
     min-height: 100vh;
@@ -440,7 +464,7 @@ export default {
 }
 .medicine {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   width: calc(50% - 45px);
   padding: 10px;
@@ -454,6 +478,7 @@ export default {
     line-height: 59px;
     text-align: center;
     color: #424242;
+    width: 52.63%;
   }
   &__img {
     width: 60px;

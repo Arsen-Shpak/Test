@@ -71,7 +71,6 @@ export default {
   left: 22.7%;
   right: 21.6%;
   box-shadow: 0px 0px 40px rgba(127, 127, 127, 0.4);
-
   border-radius: 40px;
   &__text {
     margin: 0 60px 80px 60px;
@@ -82,7 +81,6 @@ export default {
     margin-bottom: 25px;
     object-fit: contain;
     object-position: center;
-
     width: 100%;
   }
   &__name {
