@@ -63,7 +63,7 @@
           class="personCard"
           v-for="card in this.CARDS"
           :key="card.id"
-          :person="card"
+          :person="Card"
         />
       </vue-swing>
       <div class="main__remedy remedy">
