@@ -1,3 +1,4 @@
+
 <template>
   <div class="card">
     <img :src="require('@/images/' + person.img)" alt="img" class="card__img" />
@@ -66,6 +67,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .card {
+  background-color: #fff;
   position: absolute;
   top: 12.7%;
   left: 22.7%;

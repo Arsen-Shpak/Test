@@ -1,7 +1,7 @@
 <template>
   <div class="cover">
     <div class="cover__inside">
-      <h3 class="cover__subtitle">Добро пожаловать в игру</h3>
+      <p class="cover__subtitle">Добро пожаловать в игру</p>
       <h1 class="cover__title">Помоги ФАРМАЦЕВТУ</h1>
       <CoverButton title="Начать" class="cover__button" @coverButton="goNext" />
     </div>

@@ -8,12 +8,14 @@
           class="main__btnHome"
           @click="goHome"
         />
-        <!-- <div> -->
+        <!-- <div  class="btnwrapp"
+        > -->
           <img
           :src="button"
           alt="btnRetry"
           class="main__btnRetry"
-          @click="goRetry"
+          @click="goRetry "
+
         />
         <!-- </div> -->
       </div>
@@ -55,15 +57,13 @@
         @throwoutup="up"
         @dragmove="dragNew"
         @dragend="dragEnd"
-        @dragstart="dragstart"
       >
-      <!-- <div></div> -->
         <PersonCard
-          :print="print"
+          :person="card"
+          :print="+card.id === +currentInd ? print : ''"
           class="personCard"
-          v-for="card in this.CARDS"
+          v-for="card in cardsToView"
           :key="card.id"
-          :person="Card"
         />
       </vue-swing>
       <div class="main__remedy remedy">
@@ -84,17 +84,15 @@
           "
           @click="secondRemedy"
           :disabled="isButtonDisabled"
-
         >
           Препарат 2
         </button>
         <button
           class="remedy__name"
           style="
-            background: linear-gradient(90deg, #FFD748 0.02%, rgba(195, 199, 11, 0.96) 99.97%, #CAC6AB 99.98%, #D3E9E1 99.99%);"
+            background: linear-gradient(90deg,#ffd748 0.02%,rgba(195, 199, 11, 0.96) 99.97%,#cac6ab 99.98%,#d3e9e1 99.99%);"
           @click="thirdRemedy"
           :disabled="isButtonDisabled"
-
         >
           Препарат 3
         </button>
@@ -110,7 +108,6 @@ import sadIcon from "@/images/Sad_icon.svg";
 import heartIcon from "@/images/heart_icon.svg";
 import PersonCard from "@/components/PersonCard.vue";
 import button from "@/images/button.svg";
-import group from "@/images/Group.png";
 import { Swipeable } from "vue-swipy";
 import VueSwing from "vue-swing";
 import { mapActions, mapGetters, mapMutations } from "vuex";
@@ -129,12 +126,11 @@ export default {
       happyIcon: happyIcon,
       sadIcon: sadIcon,
       heartIcon: heartIcon,
-      group:group,
       currentInd: 1,
+      cardsToView: [],
       print: "",
       button: button,
       isButtonDisabled:false,
-      isCard:true,
       config: {
         allowedDirections: [
           VueSwing.Direction.UP,
@@ -181,27 +177,21 @@ export default {
         (element) => Number(element.id) === this.currentInd
       );
     },
-    // CurrentCard(){
-    //     return this.GET_CURRENT_CARD(this.currentInd)
-    //   }
-    // arrayOfCard() {
-    //   return this.CARDS[this.currentInd-1]
-    // }
-    // getTranslateXY() {
-    //   const transformStyle = document.getElementById(".card").style.transform;
-    //   const style = window.getComputedStyle(transformStyle);
-    //   const matrix = new DOMMatrixReadOnly(style.transform);
-    //   return {
-    //     translateX: matrix.m41,
-    //     translateY: matrix.m42,
-    //   };
-    // },
+    getTranslateXY() {
+      const transformStyle = document.getElementById(".card").style.transform;
+      const style = window.getComputedStyle(transformStyle);
+      const matrix = new DOMMatrixReadOnly(style.transform);
+      return {
+        translateX: matrix.m41,
+        translateY: matrix.m42,
+      };
+    },
   },
-  
-  mounted() {
-    this.GET_CARDS_FROM_API();
+  async mounted() {
     this.GET_CURRENT_CARD(this.currentInd);
-    console.log(this.Card);
+
+    await this.GET_CARDS_FROM_API();
+    this.cardsToView = this.CARDS.reverse();
   },
   methods: {
     ...mapActions({
@@ -215,11 +205,16 @@ export default {
       RESET_PARAMS: "params/RESET_PARAMS",
     }),
     goHome() {
+      this.RESET_PARAMS();
+      this.currentInd = 1;
+      // this.cardsToView = this.CARDS.reverse();
+      this.cardsToView = this.CARDS;
       this.$router.push({ name: "cover" });
     },
     goRetry() {
       this.RESET_PARAMS();
       this.currentInd = 1;
+      this.cardsToView = this.CARDS;
     },
     resetWithMove() {
       if (this.currentInd === this.CARDS.length) {
@@ -228,7 +223,6 @@ export default {
       }
     },
     firstRemedy() {
-      // this.isButtonDisabled = true;
       this.ADD_SAD_PARAMS(this.CURRENT_CARD);
       this.print = "Препарат 1";
       this.animation("left");
@@ -253,6 +247,9 @@ export default {
             duration: 0.5,
             rotate: -15,
             onComplete: () => {
+              this.cardsToView = this.cardsToView.filter(
+                ({ id }) => id != this.currentInd
+              );
               this.currentInd++;
               ind.revert();
               this.print = "";
@@ -266,6 +263,9 @@ export default {
             duration: 0.5,
             rotate: 15,
             onComplete: () => {
+              this.cardsToView = this.cardsToView.filter(
+                ({ id }) => id != this.currentInd
+              );
               this.currentInd++;
               ind.revert();
               this.print = "";
@@ -279,6 +279,9 @@ export default {
             duration: 0.5,
             rotate: -15,
             onComplete: () => {
+              this.cardsToView = this.cardsToView.filter(
+                ({ id }) => id != this.currentInd
+              );
               this.currentInd++;
               ind.revert();
               this.print = "";
@@ -300,6 +303,9 @@ export default {
       if (this.currentInd === this.CARDS.length) {
         this.$router.push({ name: "Final" });
       }
+      this.cardsToView = this.cardsToView.filter(
+        ({ id }) => id != this.currentInd
+      );
     },
     left({ target }) {
       this.ADD_SAD_PARAMS(this.CURRENT_CARD);
@@ -314,7 +320,6 @@ export default {
       target.remove();
     },
     dragNew(event) {
-      // console.log(event.target)
       const { leftOffset, rightOffset, topOffset } = event.throwOutConfidence;
       if (topOffset < 50 && leftOffset < 50 && rightOffset < 50) {
         this.print = "";
@@ -326,16 +331,12 @@ export default {
         if (leftOffset > rightOffset) return "Препарат 1";
         return "Препарат 3";
       })();
+
       this.print = drugName;
     },
     dragEnd() {
       this.print = "";
-
     },
-    dragstart() {
-      console.log(this.currentInd)
-      // this.currentInd++
-    }
   },
 };
 </script>
@@ -444,10 +445,8 @@ export default {
   }
   &__number {
     font-family: "Montserrat";
-    // font-size: 45px;
-    // line-height: 55px;
-    font-size: 36px;
-    line-height: 44px;
+    font-size: 45px;
+    line-height: 55px;
     display: flex;
     align-items: center;
     text-align: center;
@@ -522,4 +521,16 @@ export default {
     color: #ffffff;
   }
 }
+// .btnwrapp {
+//   width: 70px;
+//   height: 70px;
+//   border-radius: 100px;
+//   background: #ffffff;
+//   background-image: url(../images/button.svg);
+//   background-size: cover;
+//   background-repeat: no-repeat;
+
+// }
 </style>
+
+
