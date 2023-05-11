@@ -8,16 +8,12 @@
           class="main__btnHome"
           @click="goHome"
         />
-        <!-- <div  class="btnwrapp"
-        > -->
-          <img
-          :src="button"
+        <img
+          :src="btnRetry"
           alt="btnRetry"
           class="main__btnRetry"
-          @click="goRetry "
-
+          @click="goRetry"
         />
-        <!-- </div> -->
       </div>
       <div class="main__down">
         <div class="main__center">
@@ -37,7 +33,6 @@
             </div>
           </div>
         </div>
-
         <div class="main__counter">
           <p class="main__subtitile">Осталось в очереди:</p>
           <h3 class="main__subtitile">
@@ -101,8 +96,8 @@
   </div>
 </template>
 <script>
+import btnRetry from "@/images/btn_retry.svg";
 import btnHome from "@/images/btn_home.svg";
-import btnRetry from "@/images/btn_retry.png";
 import happyIcon from "@/images/Happy_icon.svg";
 import sadIcon from "@/images/Sad_icon.svg";
 import heartIcon from "@/images/heart_icon.svg";
@@ -121,8 +116,8 @@ export default {
   },
   data() {
     return {
-      btnHome: btnHome,
       btnRetry: btnRetry,
+      btnHome: btnHome,
       happyIcon: happyIcon,
       sadIcon: sadIcon,
       heartIcon: heartIcon,
@@ -130,11 +125,10 @@ export default {
       cardsToView: [],
       print: "",
       button: button,
-      isButtonDisabled:false,
+      isButtonDisabled: false,
       config: {
         allowedDirections: [
           VueSwing.Direction.UP,
-          // VueSwing.Direction.DOWN,
           VueSwing.Direction.LEFT,
           VueSwing.Direction.RIGHT,
         ],
@@ -207,7 +201,6 @@ export default {
     goHome() {
       this.RESET_PARAMS();
       this.currentInd = 1;
-      // this.cardsToView = this.CARDS.reverse();
       this.cardsToView = this.CARDS;
       this.$router.push({ name: "cover" });
     },
@@ -521,16 +514,4 @@ export default {
     color: #ffffff;
   }
 }
-// .btnwrapp {
-//   width: 70px;
-//   height: 70px;
-//   border-radius: 100px;
-//   background: #ffffff;
-//   background-image: url(../images/button.svg);
-//   background-size: cover;
-//   background-repeat: no-repeat;
-
-// }
 </style>
-
-

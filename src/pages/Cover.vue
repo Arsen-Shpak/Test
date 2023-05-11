@@ -35,7 +35,6 @@ export default {
   height: 100vh;
   width: 100%;
 }
-
 .hero::before {
   content: "";
   background-image: url("https://placekitten.com/1200/800");
@@ -47,7 +46,6 @@ export default {
   left: 0px;
   opacity: 0.75;
 }
-
 .cover {
   position: relative;
   height: 100vh;

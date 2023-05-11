@@ -26,7 +26,6 @@
       </div>
     </div>
     <FinalButton title="Попробовать еще" @finalButton="tryAgain" />
-
     <img :src="finalImg" alt="finalImg" class="final__img" />
   </div>
 </template>

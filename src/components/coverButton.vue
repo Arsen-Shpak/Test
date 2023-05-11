@@ -38,7 +38,6 @@ export default {
   align-items: center;
   text-align: center;
   color: #8e9ad5;
-
   &:hover {
     cursor: pointer;
     background-color: #a378ff;
